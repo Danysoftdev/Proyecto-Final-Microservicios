@@ -46,8 +46,9 @@ from sqlalchemy import (
     ForeignKey,
     create_engine,
 )
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from app.config.settings import DATABASE
+from config.settings import DATABASE
 
 Base = declarative_base()
 
@@ -72,8 +73,8 @@ class User(Base):
     user_email = Column(String(100), unique=True, nullable=False)
     user_password = Column(String(255), nullable=False)
     user_pfp = Column(String(255), nullable=True)
-    user_created = Column(DateTime, default=datetime.utcnow)
-    user_updated = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    user_created = Column(DateTime, default=datetime.now)
+    user_updated = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
 
 class Group(Base):
@@ -381,19 +382,19 @@ engine = create_engine(DATABASE_URL)
 
 
 # Crear una sesión de base de datos
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 # Crear las tablas en la base de datos
-def create_tables():
-    """
-    Create all tables defined in the SQLAlchemy Base metadata.
+# def create_tables():
+#     """
+#     Create all tables defined in the SQLAlchemy Base metadata.
 
-    This function uses the SQLAlchemy `create_all` method to create all tables
-    defined in the Base metadata. The tables are created using the provided
-    database engine.
+#     This function uses the SQLAlchemy `create_all` method to create all tables
+#     defined in the Base metadata. The tables are created using the provided
+#     database engine.
 
-    Returns:
-        None
-    """
-    Base.metadata.create_all(bind=engine)
+#     Returns:
+#         None
+#     """
+#     Base.metadata.create_all(bind=engine)

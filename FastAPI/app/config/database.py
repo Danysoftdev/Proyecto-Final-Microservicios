@@ -32,6 +32,7 @@ Classes:
     NotificationModel (Model): Represents a notification in the database.
 """
 
+# pylint: disable=too-few-public-methods
 from datetime import datetime
 from enum import Enum
 from peewee import (
@@ -48,7 +49,7 @@ from peewee import (
     TimeField,
     MySQLDatabase,
 )
-from app.config.settings import DATABASE
+from config.settings import DATABASE
 
 database = MySQLDatabase(
     DATABASE["name"],
@@ -136,20 +137,16 @@ class NotificationTypeEnum(Enum):
 
 class UserModel(Model):
     """
-    Represents a user in the database.
-
+    UserModel class representing a user entity.
+    
     Attributes:
-        id (AutoField): The primary key for the user.
-        username (CharField): The username of the user, with a maximum length of 100 characters.
-        user_email (CharField): The email of the user, with a maximum length of 100 characters
-        and must be unique.
-        user_password (CharField): The password of the user, with a maximum length of 255 characters
-        user_pfp (CharField): The profile picture URL of the user, with a maximum
-        length of 255 characters. This field is optional.
-        user_created (DateTimeField): The timestamp when the user was created.
-        Defaults to the current date and time.
-        user_updated (DateTimeField): The timestamp when the user was last updated.
-        Defaults to the current date and time.
+        id (int): Unique identifier for the user.
+        username (str): The user's username.
+        user_email (str): The user's email.
+        user_password (str): The user's password.
+        user_pfp (str): The user's profile picture.
+        user_created (datetime): The date and time the user was created.
+        user_updated (datetime): The date and time the user was last updated
     """
 
     id = AutoField(primary_key=True)
@@ -166,7 +163,7 @@ class UserModel(Model):
         table_name (str): The name of the database table for this model.
 
         """
-
+        database = database
         table_name = "users"
 
 
@@ -197,7 +194,7 @@ class GroupModel(Model):
         Meta:
         table_name (str): The name of the database table for this model.
         """
-
+        database = database
         table_name = "groups"
 
 
@@ -226,6 +223,7 @@ class UserGroupModel(Model):
         primary_key (bool): Indicates that this model does not have a single primary key.
         """
 
+        database = database
         table_name = "user_groups"
         primary_key = False
 
@@ -272,7 +270,7 @@ class RecipeModel(Model):
         Meta:
         table_name (str): The name of the database table for this model.
         """
-
+        database = database
         table_name = "recipes"
 
 
@@ -295,7 +293,7 @@ class FoodTypeModel(Model):
         Meta:
         table_name (str): The name of the table in the database.
         """
-
+        database = database
         table_name = "food_types"
 
 
@@ -320,7 +318,7 @@ class RecipeFoodTypeModel(Model):
         table_name (str): Name of the database table ("recipes_food_types").
         primary_key (bool): No single primary key, using a composite key instead.
         """
-
+        database = database
         table_name = "recipes_food_types"
         primary_key = False
 
@@ -346,7 +344,7 @@ class CategoryModel(Model):
         Meta:
         table_name (str): Name of the database table ("categories").
         """
-
+        database = database
         table_name = "categories"
 
 
@@ -383,7 +381,7 @@ class IngredientModel(Model):
         Meta:
         table_name (str): Name of the database table ("ingredients").
         """
-
+        database = database
         table_name = "ingredients"
 
 
@@ -410,7 +408,7 @@ class MeasurementUnitModel(Model):
          Meta:
         table_name (str): The name of the table in the database ("measurement_units").
         """
-
+        database = database
         table_name = "measurement_units"
 
 
@@ -442,7 +440,7 @@ class RecipeIngredientModel(Model):
         table_name (str): The name of the table ("recipes_ingredients").
         primary_key (bool): This table does not use a single primary key, but rather a composite key
         """
-
+        database = database
         table_name = "recipes_ingredients"
         primary_key = False
 
@@ -472,7 +470,7 @@ class MenuModel(Model):
         Meta:
         table_name (str): The name of the table ("menus").
         """
-
+        database = database
         table_name = "menus"
 
 
@@ -496,7 +494,7 @@ class MenuRecipeModel(Model):
         table_name (str): The name of the table ("menus_recipes").
         primary_key (bool): This table does not use a single primary key but a composite key.
         """
-
+        database = database
         table_name = "menus_recipes"
         primary_key = False
 
@@ -521,7 +519,7 @@ class MenuGroupModel(Model):
         table_name (str): The name of the table ("menus_groups").
         primary_key (bool): This table does not use a single primary key but a composite key.
         """
-
+        database = database
         table_name = "menus_groups"
         primary_key = False
 
@@ -551,7 +549,7 @@ class ShopListItemModel(Model):
         Meta:
         table_name (str): The name of the table ("shop_list_items").
         """
-
+        database = database
         table_name = "shop_list_items"
 
 
@@ -584,7 +582,7 @@ class PantriesIngredientModel(Model):
         Meta:
         table_name (str): The name of the table ("pantries_ingredients").
         """
-
+        database = database
         table_name = "pantries_ingredients"
 
 
@@ -616,5 +614,5 @@ class NotificationModel(Model):
         Meta:
         table_name (str): The name of the table ("notifications").
         """
-
+        database = database
         table_name = "notifications"
