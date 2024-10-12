@@ -3,7 +3,7 @@ services:
     build: 
       context: ./MySQL # - The context refers to the path where the Dockerfile is located.
       dockerfile: Dockerfile
-    container_name: database # nombre del contenedor.
+    container_name: database_parcial # nombre del contenedor.
     restart: always # el contenedor se reiniciará siempre que se detenga
     ports:
       - 3307:3306 # primer puerto es el de la maquina local, segundo el del docker
@@ -21,7 +21,7 @@ services:
   # - The adminer is a tool for managing content in databases.
   adminer:
     image: adminer
-    container_name: adminer_eam
+    container_name: adminer_parcial
     restart: always
     ports:
       - 8080:8080 #el segundo puerto debe de ser el mismo que está en FastAPI
@@ -33,7 +33,7 @@ services:
     build: 
       context: ./FastAPI
       dockerfile: Dockerfile
-    container_name: backend
+    container_name: backend_parcial
     restart: always
     ports:
       - "8000:80"
