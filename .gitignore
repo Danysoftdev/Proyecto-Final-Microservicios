@@ -2,3 +2,4 @@
 /venv
 MySQL/volumes
 __pycache__
+.env
