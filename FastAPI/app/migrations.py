@@ -68,7 +68,7 @@ class User(Base):
         user_updated (datetime): Timestamp when the user was last updated.
     """
 
-    _tablename_ = "users"
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(100), unique=True, index=True, nullable=False)
     user_email = Column(String(100), unique=True, nullable=False)
@@ -90,7 +90,7 @@ class Group(Base):
         group_updated (datetime): Timestamp of the last group update.
     """
 
-    _tablename_ = "groups"
+    __tablename__ = "groups"
     group_id = Column(Integer, primary_key=True, index=True)
     groups_name = Column(String(100), nullable=False)
     groups_description = Column(String(255))
@@ -108,7 +108,7 @@ class UserGroup(Base):
         rol (str): Role of the user in the group ('admin' or 'member').
     """
 
-    _tablename_ = "user_groups"
+    __tablename__ = "user_groups"
     user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
     group_id = Column(Integer, ForeignKey("groups.group_id"), primary_key=True)
     rol = Column(Enum("admin", "member"), nullable=False)
@@ -132,7 +132,7 @@ class Recipe(Base):
         recipe_updated (datetime): Timestamp of the last recipe update.
     """
 
-    _tablename_ = "recipes"
+    __tablename__ = "recipes"
     recipe_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     recipe_name = Column(String(100), nullable=False)
@@ -158,7 +158,7 @@ class FoodType(Base):
         food_type_created (datetime): Timestamp when the food type was created.
     """
 
-    _tablename_ = "food_types"
+    __tablename__ = "food_types"
     food_type_id = Column(Integer, primary_key=True, index=True)
     food_type_name = Column(String(50), nullable=False)
     food_type_created = Column(DateTime, default=datetime.utcnow)
@@ -173,7 +173,7 @@ class RecipeFoodType(Base):
         food_type_id (int): Foreign key referencing a food type.
     """
 
-    _tablename_ = "recipes_food_types"
+    __tablename__ = "recipes_food_types"
     recipe_id = Column(Integer, ForeignKey("recipes.recipe_id"), primary_key=True)
     food_type_id = Column(
         Integer, ForeignKey("food_types.food_type_id"), primary_key=True
@@ -190,7 +190,7 @@ class Category(Base):
         category_created (datetime): Timestamp when the category was created.
     """
 
-    _tablename_ = "categories"
+    __tablename__ = "categories"
     category_id = Column(Integer, primary_key=True, index=True)
     category_name = Column(String(50), nullable=False)
     category_created = Column(DateTime, default=datetime.utcnow)
@@ -211,7 +211,7 @@ class Ingredient(Base):
         category_id (int): Foreign key referencing the category of the ingredient.
     """
 
-    _tablename_ = "ingredients"
+    __tablename__ = "ingredients"
     ingredient_id = Column(Integer, primary_key=True, index=True)
     ingredient_name = Column(String(100), nullable=False)
     ingredient_calories_per_unit = Column(DECIMAL(10, 2), nullable=False)
@@ -233,7 +233,7 @@ class MeasurementUnit(Base):
         unit_type (str): Type of the unit ('mass', 'volume', 'unit').
     """
 
-    _tablename_ = "measurement_units"
+    __tablename__ = "measurement_units"
     unit_id = Column(Integer, primary_key=True, index=True)
     unit_name = Column(String(50), nullable=False)
     unit_abbreviation = Column(String(10), nullable=False)
@@ -251,7 +251,7 @@ class RecipeIngredient(Base):
         measurement_unit_id (int): Foreign key referencing a measurement unit.
     """
 
-    _tablename_ = "recipes_ingredients"
+    __tablename__ = "recipes_ingredients"
     recipe_id = Column(Integer, ForeignKey("recipes.recipe_id"), primary_key=True)
     ingredient_id = Column(
         Integer, ForeignKey("ingredients.ingredient_id"), primary_key=True
@@ -274,7 +274,7 @@ class Menu(Base):
         menu_type (str): Type of the menu ('Breakfast', 'Lunch', 'Dinner', 'Other').
     """
 
-    _tablename_ = "menus"
+    __tablename__ = "menus"
     menu_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     menu_created = Column(DateTime, default=datetime.utcnow)
@@ -291,7 +291,7 @@ class MenuRecipe(Base):
         recipe_id (int): Foreign key referencing a recipe.
     """
 
-    _tablename_ = "menus_recipes"
+    __tablename__ = "menus_recipes"
     menu_id = Column(Integer, ForeignKey("menus.menu_id"), primary_key=True)
     recipe_id = Column(Integer, ForeignKey("recipes.recipe_id"), primary_key=True)
 
@@ -305,7 +305,7 @@ class MenuGroup(Base):
         group_id (int): Foreign key referencing a group.
     """
 
-    _tablename_ = "menus_groups"
+    __tablename__ = "menus_groups"
     menu_id = Column(Integer, ForeignKey("menus.menu_id"), primary_key=True)
     group_id = Column(Integer, ForeignKey("groups.group_id"), primary_key=True)
 
@@ -321,7 +321,7 @@ class ShopListItem(Base):
         item_total_price (decimal): Total price of the item.
     """
 
-    _tablename_ = "shop_list_items"
+    __tablename__ = "shop_list_items"
     item_id = Column(Integer, primary_key=True, index=True)
     item_ingredient_id = Column(
         Integer, ForeignKey("ingredients.ingredient_id"), nullable=False
@@ -342,7 +342,7 @@ class PantryIngredient(Base):
         user_id (int): Foreign key referencing the user who owns the pantry.
     """
 
-    _tablename_ = "pantries_ingredients"
+    __tablename__ = "pantries_ingredients"
     pantries_ingredients_id = Column(Integer, primary_key=True, index=True)
     ingredient_id = Column(
         Integer, ForeignKey("ingredients.ingredient_id"), nullable=False
@@ -365,7 +365,7 @@ class Notification(Base):
         notification_created_date (datetime): Timestamp when the notification was created.
     """
 
-    _tablename_ = "notifications"
+    __tablename__ = "notifications"
     notification_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     notification_type = Column(
