@@ -33,6 +33,7 @@ Functions:
     create_tables(): Creates all the defined tables in the database using the provided engine.
 """
 
+# pylint: disable=too-few-public-methods
 from datetime import datetime
 from sqlalchemy import (
     Column,
