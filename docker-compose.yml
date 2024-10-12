@@ -6,7 +6,7 @@ services:
     container_name: database_parcial # nombre del contenedor.
     restart: always # el contenedor se reiniciará siempre que se detenga
     ports:
-      - 3307:3306 # primer puerto es el de la maquina local, segundo el del docker
+      - 3306:3306 # primer puerto es el de la maquina local, segundo el del docker
     volumes:
       - ./MySQL/volumes:/var/lib/mysql # dónde se guardará la información de la base de datos
     hostname: eam_database
