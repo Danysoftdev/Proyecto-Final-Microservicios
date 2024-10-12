@@ -1,5 +1,6 @@
+from datetime import datetime
 from peewee import *
-from config.settings import DATABASE
+from app.config.settings import DATABASE
 
 database = MySQLDatabase(
     DATABASE["name"],
@@ -8,6 +9,32 @@ database = MySQLDatabase(
     host=DATABASE["host"],
     port=DATABASE["port"],
 )
+
+
+class RoleEnum(Enum):
+    ADMIN = 'admin'
+    MEMBER = 'member'
+
+class DifficultyEnum(Enum):
+    EASY = 'easy'
+    MEDIUM = 'medium'
+    HARD = 'hard'
+
+class UnitTypeEnum(Enum):
+    MASS = 'mass'
+    VOLUME = 'volume'
+    UNIT = 'unit'
+
+class MenuTypeEnum(Enum):
+    BREAKFAST = 'Breakfast'
+    LUNCH = 'Lunch'
+    DINNER = 'Dinner'
+    OTHER = 'Other'
+
+class NotificationTypeEnum(Enum):
+    PURCHASE_REMINDER = 'Purchase Reminder'
+    FOOD_PREPARATION = 'Food Preparation'
+    PRODUCT_EXPIRATION = 'Product Expiration'
 
 class UserModel(Model):
     id = AutoField(primary_key=True)
@@ -34,7 +61,10 @@ class GroupModel(Model):
 class UserGroupModel(Model):
     user_id = ForeignKeyField(UserModel, backref="user_groups", on_delete="CASCADE")
     group_id = ForeignKeyField(GroupModel, backref="group_users", on_delete="CASCADE")
-    rol = EnumField(choices=['admin', 'member'])
+    # rol = EnumField(choices=['admin', 'member'])
+    rol = CharField(
+        choices=[(role.value, role.name) for role in RoleEnum]
+    )
 
     class Meta:
         table_name = "user_groups"
@@ -46,7 +76,10 @@ class RecipeModel(Model):
     recipe_name = CharField(max_length=100)
     recipe_description = TextField()
     recipe_prepare_time = IntegerField()
-    recipe_difficulty = EnumField(choices=['easy', 'medium', 'hard'])
+    # recipe_difficulty = EnumField(choices=['easy', 'medium', 'hard'])
+    recipe_difficulty = CharField(
+        choices=[(difficulty.value, difficulty.name) for difficulty in DifficultyEnum]
+    )
     recipe_portions = TimeField()
     recipe_instructions = TextField(null=True)
     recipe_is_public = BooleanField(default=False)
@@ -117,8 +150,9 @@ class MenuModel(Model):
     user_id = ForeignKeyField(UserModel, backref="menus", on_delete="CASCADE")
     menu_created = DateTimeField(default=datetime.now)
     menu_updated = DateTimeField(default=datetime.now)
-    menu_type = EnumField(choices=['Breakfast', 'Lunch', 'Dinner', 'Other'])
-
+    menu_type = CharField(
+        choices=[(menu.value, menu.name) for menu in MenuTypeEnum]
+    )
     class Meta:
         table_name = "menus"
 
@@ -160,8 +194,10 @@ class PantriesIngredientModel(Model):
 class NotificationModel(Model):
     notification_id = AutoField(primary_key=True)
     user_id = ForeignKeyField(UserModel, backref="notifications", on_delete="CASCADE")
-    notification_type = EnumField(choices=['Purchase Reminder', 'Food Preparation', 'Product Expiration'])
     notification_message = TextField()
+    notification_type = CharField(
+        choices=[(notification.value, notification.name) for notification in NotificationTypeEnum]
+    )
     notification_created_date = DateTimeField(default=datetime.now)
 
     class Meta:
