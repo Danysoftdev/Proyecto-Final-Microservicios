@@ -64,7 +64,7 @@ class UserService:
         )
         return new_user.__data__
 
-    def update_user(self, user_id: int, user: User = Body(...)):
+    def update_user(self, user_id: int, user: User):
         """
         Update a user
 
@@ -75,29 +75,22 @@ class UserService:
         Returns:
             Dict: The updated user data
         """
-        existing_user = UserModel.get_or_none(UserModel.id == user_id)
+        existing_user = UserModel.get_by_id(user_id)
 
         if not existing_user:
             raise HTTPException(status_code=404, detail="User not found.")
 
-        if user.user_email != existing_user.user_email:
-            raise HTTPException(
-                status_code=400, detail="It´s not allowed modified user_email."
-            )
-
-        if user.user_created != existing_user.user_created:
-            raise HTTPException(
-                status_code=400, detail="It´s not allowed modified user_created date."
-            )
         existing_user.username = user.username
+        existing_user.user_email = user.user_email
         existing_user.user_password = user.user_password
         existing_user.user_pfp = user.user_pfp
+        existing_user.user_created = user.user_created
         existing_user.user_updated = datetime.now()
 
         existing_user.save()
         return {
             "message": "User successfully updated",
-            "user_data": existing_user.__data__,
+            "user_data": existing_user
         }
 
     def delete_user(self, user_id: int):

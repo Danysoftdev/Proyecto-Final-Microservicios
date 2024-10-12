@@ -1,7 +1,7 @@
 """ This module contains the routes for the user service. """
 from services.user_service import UserService
 from models.user import User
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 
 user_route = APIRouter()
 user_service = UserService()
@@ -43,7 +43,7 @@ def create_user(user: User):
     return user_service.create_user(user)
 
 @user_route.put("/users/{user_id}")
-def update_user(user_id: int, user_data: dict):
+def update_user(user_id: int, user_data: User = Body(...)):
     """
     Update a user
     
