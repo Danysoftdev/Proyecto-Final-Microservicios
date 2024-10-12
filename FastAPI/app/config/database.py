@@ -59,7 +59,6 @@ database = MySQLDatabase(
     port=DATABASE["port"],
 )
 
-
 class RoleEnum(Enum):
     """
     Enumeration for user roles.
@@ -135,6 +134,7 @@ class NotificationTypeEnum(Enum):
     PRODUCT_EXPIRATION = "Product Expiration"
 
 
+
 class UserModel(Model):
     """
     UserModel class representing a user entity.
@@ -148,7 +148,6 @@ class UserModel(Model):
         user_created (datetime): The date and time the user was created.
         user_updated (datetime): The date and time the user was last updated
     """
-
     id = AutoField(primary_key=True)
     username = CharField(max_length=100)
     user_email = CharField(max_length=100, unique=True)
@@ -159,13 +158,15 @@ class UserModel(Model):
 
     class Meta:
         """
-        Meta:
-        table_name (str): The name of the database table for this model.
-
+        Meta class for the UserModel.
+        
+        Attributes:
+        
+            database (MySQLDatabase): The database to connect to.
+            table_name (str): The name of the table in the database.
         """
         database = database
         table_name = "users"
-
 
 class GroupModel(Model):
     """

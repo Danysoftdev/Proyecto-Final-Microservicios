@@ -32,9 +32,8 @@ jobs:
 
     - name: Analysing the code with pylint
       run: |
-        RATE=$(pylint ./**/*.py --exit-zero | grep 'rated at' | awk '{print $7}' | cut -d'/' -f1)
-        if [ $RATE -gt 7 ]; then
-          pylint $(git ls-files '*.py') #Ejecuta pylint en todos los archivos .py del proyecto
+        if [${{steps.rate.outputs.rate}} -gt 7 ]; then
+          pykint $(git ls-files '*.py') #Ejecuta pylint en todos los archivos .py del proyecto
         else
             echo "Rate is not greater than 7. Skipping pylint analysis."
         fi
